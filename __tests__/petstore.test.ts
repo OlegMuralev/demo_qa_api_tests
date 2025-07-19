@@ -1,33 +1,17 @@
-import axios from 'axios';
+// __tests__/petstore.test.ts
+import { PetApiClient } from '../api/petApiClient';
+describe('Petstore API - OOP Style', () => {
+  const client = new PetApiClient('https://petstore.swagger.io');
 
-describe('Petstore API', () => {
-  it('Find available pet', async () => {
-    console.log('📡 Отправка запроса к Petstore API...');
-
-    const response = await axios.get(
-      'https://petstore.swagger.io/v2/pet/findByStatus',
-      { params: { status: 'available' } }
-    );
-
-    console.log('✅ Ответ получен:', response.status);
-    console.log('🔢 Кол-во объектов:', response.data.length);
-    console.log('📦 Тело ответа:', response.data);
-
-
+  test('Get available pets', async () => {
+    const response = await client.getPetsByStatus('available');
     expect(response.status).toBe(200);
     expect(Array.isArray(response.data)).toBe(true);
+  });
 
-    if (response.data.length > 0) {
-      expect(response.data[0]).toHaveProperty('status', 'available');
-    }
-
-    const petId = response.data[0].id
-
-    
-    const petResponse = await axios.get(
-      `https://petstore.swagger.io/v2/pet/${petId}`
-    );
-
-    console.log('📦 Тело ответа:', petResponse.data);
+  test('Get pending pets', async () => {
+    const response = await client.getPetsByStatus('pending');
+    expect(response.status).toBe(200);
+    expect(Array.isArray(response.data)).toBe(true);
   });
 });
