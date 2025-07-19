@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 describe('Petstore API', () => {
-  it('should return pets with status "available"', async () => {
+  it('Find available pet', async () => {
     console.log('📡 Отправка запроса к Petstore API...');
 
     const response = await axios.get(
@@ -20,5 +20,14 @@ describe('Petstore API', () => {
     if (response.data.length > 0) {
       expect(response.data[0]).toHaveProperty('status', 'available');
     }
+
+    const petId = response.data[0].id
+
+    
+    const petResponse = await axios.get(
+      `https://petstore.swagger.io/v2/pet/${petId}`
+    );
+
+    console.log('📦 Тело ответа:', petResponse.data);
   });
 });
