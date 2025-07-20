@@ -1,4 +1,3 @@
-// api/petApiClient.ts
 import axios, { AxiosInstance } from 'axios';
 
 export class PetApiClient {
@@ -15,5 +14,27 @@ export class PetApiClient {
     return response;
   }
 
+  async addPet(name: String, status: String) {
+    const payload = {
+      id: 0,
+      category: {
+        id: 0,
+        name
+      },
+      name: name,
+      photoUrls: [
+        "string"
+      ],
+      tags: [
+        {
+          id: 0,
+          name: "string"
+        }
+      ],
+      status
+    };
+    return await this.client.post('/pet', payload);
+  }
+  
   
 }
